@@ -6,63 +6,6 @@ function App () {
   const [input, setinput] = useState('');
 
 
-  const CalculateResult = (input) => {
-    try {
-      const operators = ['+', '-', '*', '/', '%'];
-      let operator = null;
-  
-      // Find the first operator
-      for (let i = 0; i < input.length; i++) {
-        if (operators.includes(input[i])) {
-          operator = input[i];
-          break;
-        }
-      }
-  
-      // If no operator, try parsing the number
-      if (!operator) {
-        setinput(parseFloat(input).toString());
-        return;
-      }
-  
-      // Split the input into two operands
-      const [operand1, operand2] = input.split(operator).map(Number);
-  
-      // Check if both operands are valid numbers
-      if (isNaN(operand1) || isNaN(operand2)) {
-        throw new Error('Invalid operands');
-      }
-  
-      let result;
-      switch (operator) {
-        case '+':
-          result = operand1 + operand2;
-          break;
-        case '-':
-          result = operand1 - operand2;
-          break;
-        case '*':
-          result = operand1 * operand2;
-          break;
-        case '/':
-          if (operand2 === 0) throw new Error('Division by zero');
-          result = operand1 / operand2;
-          break;
-        case '%':
-          result = operand1 % operand2;
-          break;
-        default:
-          throw new Error('Invalid operator');
-      }
-  
-      // Corrected to .toString()
-      setinput(result.toString());
-    } catch {
-      setinput('Error');
-    }
-  };
-  
-
   const handleButtonClick = (val) =>{
     if(val === 'C')
       setinput('');
@@ -70,7 +13,12 @@ function App () {
       setinput(input.slice(0,-1));
     else if(val === '=')
     {
-      CalculateResult(input);
+      try{
+        setinput(eval(input).toString());
+      }
+      catch{
+        setinput('Error');
+      }
     }
     else
     {
@@ -80,6 +28,66 @@ function App () {
     }
 
   }
+
+
+
+  // const CalculateResult = (input) => {
+  //   try {
+  //     const operators = ['+', '-', '*', '/', '%'];
+  //     let operator = null;
+  
+  //     // Find the first operator
+  //     for (let i = 0; i < input.length; i++) {
+  //       if (operators.includes(input[i])) {
+  //         operator = input[i];
+  //         break;
+  //       }
+  //     }
+  
+  //     // If no operator, try parsing the number
+  //     if (!operator) {
+  //       setinput(parseFloat(input).toString());
+  //       return;
+  //     }
+  
+  //     // Split the input into two operands
+  //     const [operand1, operand2] = input.split(operator).map(Number);
+  
+  //     // Check if both operands are valid numbers
+  //     if (isNaN(operand1) || isNaN(operand2)) {
+  //       throw new Error('Invalid operands');
+  //     }
+  
+  //     let result;
+  //     switch (operator) {
+  //       case '+':
+  //         result = operand1 + operand2;
+  //         break;
+  //       case '-':
+  //         result = operand1 - operand2;
+  //         break;
+  //       case '*':
+  //         result = operand1 * operand2;
+  //         break;
+  //       case '/':
+  //         if (operand2 === 0) throw new Error('Division by zero');
+  //         result = operand1 / operand2;
+  //         break;
+  //       case '%':
+  //         result = operand1 % operand2;
+  //         break;
+  //       default:
+  //         throw new Error('Invalid operator');
+  //     }
+  
+  //     // Corrected to .toString()
+  //     setinput(result.toString());
+  //   } catch {
+  //     setinput('Error');
+  //   }
+  // };
+
+
 
 
   return (
